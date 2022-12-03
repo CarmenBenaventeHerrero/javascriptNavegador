@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de gastos</title>
+</head>
+<body>
+
+    <header id="header">
+
+        <div>
+            <h1 id="title">Control de gastos</h1>
+        </div>
+        <div class="headerContent">
+            <h2 class="ahorro">TU AHORRO</h2>
+                <p class="totalAhorro"></p>
+        </div>
+
+        <div id="ingresosGastos">
+            <h2 class="ingresos">INGRESOS</h2>
+                <p class="totalIngresos"></p>
+            <h2 class="gastos">GASTOS</h2>
+                <p class="totalGastos"></p>
+        </div>
+   
+    </header>
+
+    <main id="operaciones">
+        <h3 >Historial</h3>
+         <hr>
+        <section id="historial" class="section">
+        </section>
+
+        <section id="transacciones" class="section">
+
+            <form id="formulario" novalidate>
+                <h3 >Añadir nueva transacción</h3>
+                <hr>
+                <div>
+                    <p>Concepto</p>
+                        <input required id="concepto" type="text" placeholder="Añade el concepto" />
+                </div>
+                <div>
+                    <p>Cantidad</p>
+                    <input required id="cantidadConcepto" type="number" placeholder="Introduce cantidad" >
+                </div>
+                <button type="submit" id="añadeTransaccion">Añadir transacción</button>
+            </form>
+
+        </section>
+    
+    <script src="./index.js"></script>
+</body>
+</html>
