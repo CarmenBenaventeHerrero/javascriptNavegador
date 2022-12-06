@@ -42,8 +42,8 @@ function drawTransaction(input){
         
 //parte HTML transacción
   let inputTransaction = `
-    <span>${input.concept} ${input.quantity} €</span><button class="delete" onclick="deleteTransaction(${
-      input.id})">✖</button>
+    <p>${input.concept}</p><span>${input.quantity} €<button class="delete" onclick="deleteTransaction(${
+      input.id})">✖</button></span>
   `;
     // lo rellenamos conHTML y los datos de la transacción utilizando innerHTML
   inputElement.innerHTML = inputTransaction;
