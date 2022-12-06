@@ -1,6 +1,8 @@
-const createNewTransaction = document.querySelector("#formulario");
+let inputs = []
+const createNewTransaction = document.querySelector("#formulario"); 
 
 createNewTransaction.addEventListener("submit", (event) => {
+  
     event.preventDefault();
   
     const inputConcept = document.querySelector("#concepto");
@@ -8,7 +10,8 @@ createNewTransaction.addEventListener("submit", (event) => {
 
     let input = {
         concept: inputConcept.value,
-        quantity: inputQuantity.value,
+        quantity: +inputQuantity.value,
+        id: createId(),
       };
 
     if (inputConcept.value && inputQuantity.value !== ""){
@@ -16,57 +19,99 @@ createNewTransaction.addEventListener("submit", (event) => {
       inputConcept.value = "";
       inputQuantity.value = "";
 
+      //A la lista de inputs le voy metiendo la lista de objetos input
+      inputs.push(input);
+      updateLocalStorage();
+      calculateIncomeExpenses()
       drawTransaction(input);
     }
     else(window.alert("Rellena los campos obligatorios"))
 })
 
-function drawTransaction(input){
-    const inputElement = document.createElement("article");
-    inputElement.setAttribute("concept", input.concept);
-    
-//parte HTML
-  let inputTransaction = `
-  <p>${input.concept} </p>
-  <p>${input.quantity} </p>
-  <button onclick="deleteTransaction(this)">✖</button>
-  `
-    // lo rellenamos conHTML y los datos del tweet utilizando innerHTML
-    inputElement.innerHTML = inputTransaction;
 
-    // lo añadiremos a la lista por el principio (es como un unshift)
-    transactionList.prepend(inputElement)
+function createId() {
+  return Math.floor(Math.random() * 100);
+}
+
+const transactionList = document.querySelector('#historial');
+
+function drawTransaction(input){
+  const inputElement = document.createElement("article");
+  //Para localizar el id dentro del HTML. Hago esto para identificar el nodo que quiero borrar
+  inputElement.setAttribute("id", input.id)
+        
+//parte HTML transacción
+  let inputTransaction = `
+    <span>${input.concept} ${input.quantity} €</span><button class="delete" onclick="deleteTransaction(${
+      input.id})">✖</button>
+  `;
+    // lo rellenamos conHTML y los datos de la transacción utilizando innerHTML
+  inputElement.innerHTML = inputTransaction;
+
+  transactionList.appendChild(inputElement)
 }
 
 
-//obtener lista de todas las transacciones
-const transactionList = document.querySelector('#historial');
+//Actualizar sección ingresos, gastos y ahorro
+const savingAmount = document.querySelector('.totalAhorro');
+const incomeAmount = document.querySelector('.totalIngresos');
+const expenseAmount = document.querySelector('.totalGastos');
 
-//Creo que esta función no me está haciendo nada
-function drawTransactionS(){
-  let inputs = []
-  transactionList.innerHTML = ""
+function calculateIncomeExpenses(){
+  //transformar la lista de objetos es una lista sólo con cantidades para operar
+  const amount = inputs.map((input) => input.quantity);  
+  const incomes = amount.filter((item) => item > 0).reduce((sum, n) => (sum + n), 0);
+  const expenses = amount.filter((item) => item < 0).reduce((sum, n) => (sum + n), 0);
+  const savings = amount.reduce((sum, n) => (sum + n), 0);
+
+  //cambiar el contenido de texto de un elemento de texto en el DOM
+  savingAmount.innerText = `${savings}€`;
+  incomeAmount.innerText = `${incomes}€`;
+  expenseAmount.innerText = `${expenses}€`;
+} 
+
+//Eliminar transacciones
+function deleteTransaction(id){  
+  const removeConfirmation = window.confirm('¿Quieres borrar la transacción?')
+    if(removeConfirmation){
+      const inputElement = document.getElementById(id);
+      inputElement.remove()
+      inputs = inputs.filter((input) =>input.id !== id);
+      calculateIncomeExpenses()
+  } 
+}
+
+function updateLocalStorage() {
+  localStorage.setItem("inputs", JSON.stringify(inputs));
+}
+
+//coge las transacciones del localStorage y las devuelve
+function loadTransactionsFromLocalStorage(){
+  const localStorageTransactions = JSON.parse(localStorage.getItem("inputs"));
+  return localStorageTransactions === null ? [] : localStorageTransactions
+}
+
+
+function initApp(){
+  //cargo las trasnsacciones del localStorage
+  inputs = loadTransactionsFromLocalStorage()
+  //limpio el listado de transacciones del navegador
+  //transactionList.innerHTML = "";
+  calculateIncomeExpenses();
   inputs.forEach((input) => {
-      drawTransaction(input)  
+      drawTransaction(input); 
+
   });  
 }
 
-drawTransactionS();
-
-function deleteTransaction(itemToDelete){  
-const removeConfirmation = window.confirm('¿Quieres borrar la transacción?')
-    if(removeConfirmation){
-        itemToDelete.parentElement.remove()
-} 
-}
+initApp()
 
 
-function incomes(){} //utilizar un for y las values > 0 me lo colocas en ingresos
-function expenses(){}
-function saving(){}
+/*
+/*OBJETO DE CADA TRANSACCION = [
 
-/*OBJETO DE CADA TRANSACCION
-{
-  "concepto": quantity,
-}
+{concept: "compra", quantity: -50, id : randomNumber}
+{concept: "salario", quantity: 1000, id : randomNumber}
+
+]
 */
