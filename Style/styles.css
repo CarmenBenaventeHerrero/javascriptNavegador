@@ -60,7 +60,7 @@ body > div:first-of-type{
     border: 1px solid rgb(91, 90, 90);
     margin: 20px 0px 10px 0px;
     padding: 15px;
-    font-size: ;
+    
 
 }
 #ingresosGastos > div {
@@ -82,9 +82,6 @@ body > div:first-of-type{
     letter-spacing: 1px;
 }
 
-#operaciones{
-
-}
 
 #historial > article{
 
@@ -102,6 +99,7 @@ body > div:first-of-type{
 #historial > article > span{
 margin-right: 2px;    
 }
+
 #historial > article > p {
     margin-left: 2px;
     font-weight: 600;
