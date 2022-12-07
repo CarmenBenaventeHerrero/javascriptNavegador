@@ -35,7 +35,7 @@ h3{
     line-height: 3;
 }
 
-body > div{
+body > div:first-of-type{
     border: 2px solid rgb(91, 90, 90);
     margin: 50px 0px 50px 0px;
     padding: 50px 80px 50px 80px;
@@ -96,20 +96,33 @@ body > div{
   padding: 2px;
   text-transform: capitalize;
   line-height: 2;
+ 
 }
 
-#historial > article > .delete{
+#historial > article > span{
+margin-right: 2px;    
+}
+#historial > article > p {
     margin-left: 2px;
-    
-}
-    
-/*
-#transacciones{
-    
+    font-weight: 600;
 }
 
-
-
-#form > label{
+#formulario{
+    line-height: 2;
 }
-*/
+#conceptoForm,#cantidadConceptoForm {
+    font-weight: 600;
+}
+
+#concepto, #cantidadConcepto {
+  background-color: var(--light-color);
+  border: 1px solid rgb(91, 90, 90);
+  margin: 15px 0px 15px 0px;
+  padding: 2px;
+}
+
+#añadeTransaccion{
+color: var(--dark-color);
+background-color: #DAD4FC;
+font-weight: 600;
+}
