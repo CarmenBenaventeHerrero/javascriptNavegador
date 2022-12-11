@@ -8,6 +8,7 @@ createNewTransaction.addEventListener("submit", (event) => {
     const inputConcept = document.querySelector("#concepto");
     const inputQuantity = document.querySelector("#cantidadConcepto");
 
+//Todo input es un string, tengo que convertir a inputQuantity.value en tipo número, y poniendo un + delante lo convierto    
     let input = {
         concept: inputConcept.value,
         quantity: +inputQuantity.value,
@@ -19,7 +20,7 @@ createNewTransaction.addEventListener("submit", (event) => {
       inputConcept.value = "";
       inputQuantity.value = "";
 
-      //A la lista de inputs le voy metiendo la lista de objetos input
+      //A la lista inputs le voy metiendo la lista de objetos input
       inputs.push(input);
       updateLocalStorage();
       calculateIncomeExpenses()
@@ -50,7 +51,6 @@ function drawTransaction(input){
 
   transactionList.appendChild(inputElement)
 }
-
 
 //Actualizar sección ingresos, gastos y ahorro
 const savingAmount = document.querySelector('.totalAhorro');
@@ -91,12 +91,9 @@ function loadTransactionsFromLocalStorage(){
   return localStorageTransactions === null ? [] : localStorageTransactions
 }
 
-
 function initApp(){
   //cargo las trasnsacciones del localStorage
   inputs = loadTransactionsFromLocalStorage()
-  //limpio el listado de transacciones del navegador
-  //transactionList.innerHTML = "";
   calculateIncomeExpenses();
   inputs.forEach((input) => {
       drawTransaction(input); 
